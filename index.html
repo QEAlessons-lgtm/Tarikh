@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>رحلة التحول في المجتمع الإسلامي</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#f1f8e9,#fff4d6);font-family:Tahoma,Arial;color:#18324b}
+header{background:linear-gradient(120deg,#174b38,#287b63);color:#fff;text-align:center;padding:26px 12px;border-bottom:7px solid #f6ca45}
+h1{margin:0;font-size:clamp(24px,5vw,40px)}header p{margin:10px 0 0}
+main{max-width:1000px;margin:20px auto;padding:0 14px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#fff;border:2px solid #d5e8d9;border-radius:15px;text-align:center;padding:12px}.stat b{display:block;font-size:23px;color:#18724f}
+nav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:17px 0}.tab{background:#dcefe3;color:#174b38}.tab.active{background:#174b38;color:white}
+.panel{background:white;border:2px solid #d9e9dc;border-radius:22px;padding:clamp(16px,3vw,28px);box-shadow:0 8px 25px #123b2810}
+h2{margin-top:0;color:#174b38}.question{font-size:clamp(19px,3vw,25px);font-weight:bold;line-height:1.7;margin:20px 0}.options{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:11px}
+button{font: bold 16px Tahoma;cursor:pointer;border:0;border-radius:12px;padding:13px;transition:.15s}button:hover{transform:translateY(-2px)}.opt{background:#f0f8f2;border:2px solid #c8e3d0;color:#174b38;text-align:right}.opt.good{background:#d5f6e4;border-color:#16875a}.opt.bad{background:#ffe2e2;border-color:#c43e3e}
+.primary{background:#247b60;color:#fff}.secondary{background:#f6d85b;color:#433600}.feedback{min-height:34px;margin:15px 0;font-weight:bold;line-height:1.6}.badge{background:#fff1b8;border-radius:20px;padding:7px 12px;font-size:14px}.progress{height:10px;background:#e5eee7;border-radius:20px;overflow:hidden;margin:12px 0}.bar{height:100%;background:#35a875;width:0;transition:.3s}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:10px}.match button{background:#f0f8f2;border:2px solid #c8e3d0;color:#174b38}.match .sel{background:#fff0b2;border-color:#d4a800}.match .done{background:#d5f6e4;border-color:#16875a}
+footer{text-align:center;padding:20px;color:#738277;font-size:13px}
+@media(max-width:560px){.match{grid-template-columns:1fr}.stats{gap:5px}.stat{padding:8px 3px}.stat b{font-size:19px}}
+</style>
+<body><header><h1>🕌 رحلة التحول في المجتمع الإسلامي</h1><p>من شبه الجزيرة العربية قبل الإسلام إلى بناء مجتمع جديد</p></header>
+<main>
+<div class="stats"><div class="stat">⭐ النقاط<b id="score">0</b></div><div class="stat">🎯 إجابات صحيحة<b id="correct">0</b></div><div class="stat">🏅 الرتبة<b id="rank">متعلّم</b></div></div>
+<nav>
+<button class="tab active" onclick="switchGame('quiz',this)">🧠 أسئلة متنوعة</button>
+<button class="tab" onclick="switchGame('tf',this)">✅ صح أم خطأ</button>
+<button class="tab" onclick="switchGame('match',this)">🔗 المطابقة</button>
+<button class="tab" onclick="switchGame('order',this)">📜 رتّب الأحداث</button>
+</nav><section class="panel" id="game"></section></main><footer>منصة تفاعلية تعليمية — التاريخ | مبادين تحول المجتمع الإسلامي</footer>
+<script>
+const Q=[
+["بماذا تميزت شبه الجزيرة العربية قبل الإسلام؟",["الصحراء الواسعة وقبائل البدو والترحال","انتشار المصانع","حكم موحد في كل الجزيرة","انعدام التجارة"],0,"كانت الصحراء والقبائل والعصبية القبلية وكثرة الحروب من مظاهرها."],
+["ما المقصود بالعصبية القبلية؟",["التعاون بين جميع القبائل","نصرة أفراد القبيلة ولو كانوا مخطئين","رفض الانتماء للقبيلة","الاهتمام بالتجارة فقط"],1,"العصبية هي التعصب للقبيلة ونصرتها."],
+["أين نزل الوحي على النبي محمد ﷺ أول مرة؟",["غار حراء","غار ثور","المسجد النبوي","الكعبة"],0,"نزل الوحي في غار حراء."],
+["كم كان عمر النبي ﷺ عند بداية البعثة؟",["25 سنة","35 سنة","40 سنة","63 سنة"],2,"كان عمره ﷺ أربعين سنة."],
+["في أي شهر نزل الوحي أول مرة؟",["محرم","رمضان","رجب","ذي الحجة"],1,"كان ذلك في ليلة من رمضان."],
+["ما سبب الهجرة النبوية إلى المدينة؟",["طلب التجارة","أذى قريش للمسلمين","البحث عن الماء","زيارة الأقارب"],1,"هاجر النبي ﷺ وأصحابه بسبب أذى قريش."],
+["من صاحب النبي ﷺ في الهجرة؟",["عمر بن الخطاب","علي بن أبي طالب","أبو بكر الصديق","عثمان بن عفان"],2,"رافق أبو بكر الصديق رضي الله عنه النبي ﷺ."],
+["ما اسم المدينة التي هاجر إليها النبي ﷺ؟",["الطائف","يثرب (المدينة)","مكة","بصرى"],1,"كانت تسمى يثرب ثم أصبحت المدينة المنورة."],
+["ما أول مسجد بناه النبي ﷺ بعد الهجرة؟",["المسجد الحرام","مسجد قباء","المسجد الأقصى","المسجد الأموي"],1,"بنى النبي ﷺ مسجد قباء."],
+["ما الحدث الذي اتخذ بداية للتقويم الهجري؟",["فتح مكة","نزول الوحي","الهجرة النبوية","غزوة بدر"],2,"اتخذت الهجرة بداية للتقويم الهجري."],
+["متى وقع فتح مكة؟",["8 هـ","2 هـ","10 هـ","1 هـ"],0,"وقع فتح مكة في السنة الثامنة للهجرة."],
+["ما المقصود بالتحول الاجتماعي في المجتمع الإسلامي؟",["تغير المجتمع نحو قيم الإسلام والتكافل","زيادة الحروب فقط","العودة إلى العصبية القبلية","إلغاء التجارة"],0,"قام التحول على الأخوة والتكافل والعدل."],
+["ما المؤسسة التي ساهمت في تنظيم شؤون المسلمين؟",["الشورى","العصبية القبلية","الثأر","وأد البنات"],0,"الشورى من مبادئ تنظيم المجتمع الإسلامي."],
+["ما من مظاهر التحول الاقتصادي؟",["تنظيم التجارة والاهتمام بالزكاة","منع العمل","إلغاء الأسواق","الاعتماد على الغزو فقط"],0,"شمل التحول تنظيم النشاط الاقتصادي والزكاة."],
+["ما المبدأ الذي عزز العلاقات بين أفراد المجتمع؟",["التكافل والتعاون","التمييز القبلي","الثأر","ظلم الضعيف"],0,"عزز الإسلام الأخوة والتكافل والتعاون."]
+];
+const TF=[
+["كانت التجارة عبر القوافل من أنشطة العرب قبل الإسلام.",true,"صحيح، كانت القوافل تنقل السلع بين المناطق."],
+["كان المجتمع قبل الإسلام خاليًا من الحروب والعصبية.",false,"بل عُرف بالعصبية القبلية وكثرة الحروب."],
+["نزل الوحي على النبي ﷺ في غار حراء.",true,"صحيح."],
+["وقعت الهجرة النبوية قبل البعثة.",false,"كانت الهجرة بعد البعثة ونزول الوحي."],
+["هاجر النبي ﷺ إلى يثرب بعد بيعة العقبة.",true,"صحيح، ومهدت بيعة العقبة للهجرة."],
+["بنى النبي ﷺ مسجد قباء بعد الهجرة.",true,"صحيح."],
+["فتح مكة وقع في السنة الثامنة للهجرة.",true,"صحيح."],
+["الزكاة والشورى من مظاهر التحول الاقتصادي والسياسي.",true,"الزكاة اقتصادي/اجتماعي، والشورى سياسي."]
+];
+const pairs=[["اجتماعي","الأخوة والتكافل"],["اقتصادي","الزكاة وتنظيم التجارة"],["عسكري","الدفاع عن المجتمع"],["سياسي","الشورى وتنظيم الحكم"],["الهجرة","الانتقال من مكة إلى المدينة"],["فتح مكة","السنة 8 هـ"]];
+let score=0,correct=0,qi=0,ti=0,answered=false,selected=null,matched=new Set(),game="quiz";
+function stats(){document.getElementById("score").textContent=score;document.getElementById("correct").textContent=correct;document.getElementById("rank").textContent=score>=150?"باحث متميز":score>=70?"مؤرخ صغير":"متعلّم"}
+function switchGame(g,b){game=g;document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");({quiz:renderQuiz,tf:renderTF,match:renderMatch,order:renderOrder}[g])()}
+function renderQuiz(){answered=false;let q=Q[qi%Q.length];document.getElementById("game").innerHTML=`<h2>🧠 الأسئلة المتنوعة <span class="badge">${qi+1} / ${Q.length}</span></h2><div class="progress"><div class="bar" style="width:${(qi%Q.length+1)/Q.length*100}%"></div></div><div class="question">${q[0]}</div><div class="options">${q[1].map((a,i)=>`<button class="opt" onclick="quizAnswer(${i})">${["أ","ب","ج","د"][i]}) ${a}</button>`).join("")}</div><div class="feedback" id="fb"></div><button class="primary" onclick="qi++;renderQuiz()">السؤال التالي ←</button>`}
+function quizAnswer(i){if(answered)return;answered=true;let q=Q[qi%Q.length],o=document.querySelectorAll(".opt");o[q[2]].classList.add("good");if(i===q[2]){score+=10;correct++;fb.innerHTML="🎉 إجابة صحيحة! "+q[3];fb.style.color="#16875a"}else{o[i].classList.add("bad");fb.innerHTML="💡 "+q[3];fb.style.color="#c43e3e"}stats()}
+function renderTF(){answered=false;let t=TF[ti%TF.length];document.getElementById("game").innerHTML=`<h2>✅ صح أم خطأ <span class="badge">${ti+1} / ${TF.length}</span></h2><div class="progress"><div class="bar" style="width:${(ti%TF.length+1)/TF.length*100}%"></div></div><div class="question">${t[0]}</div><div class="options"><button class="opt" onclick="tfAnswer(true)">✔ صح</button><button class="opt" onclick="tfAnswer(false)">✖ خطأ</button></div><div class="feedback" id="fb"></div><button class="primary" onclick="ti++;renderTF()">العبارة التالية ←</button>`}
+function tfAnswer(v){if(answered)return;answered=true;let t=TF[ti%TF.length];if(v===t[1]){score+=10;correct++;fb.textContent="🌟 أحسنت! "+t[2];fb.style.color="#16875a"}else{fb.textContent="راجع المعلومة: "+t[2];fb.style.color="#c43e3e"}stats()}
+function renderMatch(){selected=null;matched=new Set();let L=pairs.map((p,i)=>({v:p[0],i})).sort(()=>Math.random()-.5),R=pairs.map((p,i)=>({v:p[1],i})).sort(()=>Math.random()-.5);document.getElementById("game").innerHTML=`<h2>🔗 لعبة المطابقة</h2><p>اختر المفهوم ثم اضغط على المعنى أو المثال المناسب.</p><div class="match">${L.map(x=>`<button id="L${x.i}" onclick="pick('L',${x.i})">${x.v}</button>`).join("")}${R.map(x=>`<button id="R${x.i}" onclick="pick('R',${x.i})">${x.v}</button>`).join("")}</div><div class="feedback" id="mf">طابق العناصر الستة لتحصل على 60 نقطة.</div><button class="primary" onclick="renderMatch()">إعادة اللعبة ↻</button>`}
+function pick(s,i){if(matched.has(i))return;if(!selected){selected={s,i};document.getElementById(s+i).classList.add("sel");return}if(selected.s===s){document.getElementById(selected.s+selected.i).classList.remove("sel");selected={s,i};document.getElementById(s+i).classList.add("sel");return}document.getElementById(selected.s+selected.i).classList.remove("sel");if(selected.i===i){matched.add(i);L=document.getElementById("L"+i);R=document.getElementById("R"+i);L.classList.add("done");R.classList.add("done");score+=10;correct++;mf.textContent="✔ "+pairs[i][0]+" ↔ "+pairs[i][1];if(matched.size===pairs.length)mf.textContent="🏆 أكملت جميع المطابقات!";stats()}else mf.textContent="ليست مطابقة صحيحة، حاول مجددًا.";selected=null}
+const events=["نزول الوحي في غار حراء","بيعة العقبة","الهجرة إلى المدينة","بناء مسجد قباء","فتح مكة"];
+let orderArr=[];
+function renderOrder(){orderArr=[...events].sort(()=>Math.random()-.5);document.getElementById("game").innerHTML=`<h2>📜 رتّب الأحداث</h2><p>اضغط الأحداث حسب ترتيبها التاريخي من الأقدم إلى الأحدث.</p><div id="orderlist">${orderArr.map((e,i)=>`<button class="opt" style="display:block;width:100%;margin:8px 0" onclick="chooseOrder(${i})">${e}</button>`).join("")}</div><div class="feedback" id="ofb">الترتيب الصحيح: نزول الوحي ← بيعة العقبة ← الهجرة ← بناء مسجد قباء ← فتح مكة.</div><button class="primary" onclick="renderOrder()">إعادة التحدي ↻</button>`;window.orderStep=0}
+function chooseOrder(i){let expected=events[window.orderStep];if(orderArr[i]===expected){let buttons=document.querySelectorAll("#orderlist button");buttons[i].disabled=true;buttons[i].style.background="#d5f6e4";buttons[i].textContent="✓ "+orderArr[i];window.orderStep++;score+=10;correct++;ofb.textContent=window.orderStep===events.length?"🎉 ممتاز! رتبت الأحداث كلها بشكل صحيح.":"إجابة صحيحة! اختر الحدث التالي.";stats()}else{ofb.textContent="❌ ليس هذا الحدث التالي. تذكّر التسلسل الزمني وحاول مرة أخرى."}}
+renderQuiz();stats();
+</script></body></html>
